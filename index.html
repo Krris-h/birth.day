@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday 🎉</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: rgb(222, 159, 222);
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .door {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: #c0469b;
+      box-shadow: 0 0 30px rgba(0,0,0,0.2);
+      z-index: 10;
+      transition: transform 3s ease-in-out;
+    }
+
+    .door.left { left: 0; }
+    .door.right { right: 0; }
+
+    .open-left { transform: translateX(-100%); }
+    .open-right { transform: translateX(100%); }
+
+    .content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      margin-top: 60px;
+    }
+
+    .content img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 6px solid white;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      font-size: 40px;
+      color: #2b0c1b;
+      margin: 15px 0;
+    }
+
+    /* Balloons */
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 40px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgb(92, 19, 19);
+      animation: float 6s linear infinite;
+    }
+    .balloon:before {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: rgb(163, 83, 83);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-700px); opacity: 0; }
+    }
+
+    /* Letter box */
+    .letter {
+      width: 320px;
+      padding: 15px;
+      background: #9c94c8;
+      border-radius: 10px;
+      margin: 20px auto;
+      margin-top: 10px;  /* Upar shift kiya */
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      display: none;
+    }
+
+    .letter h2 {
+      margin: 0;
+      color: #ff007f;
+      font-size: 20px;
+    }
+
+    .letter p {
+      font-size: 16px;
+      color: #333;
+      margin-top: 10px;
+      white-space: pre-wrap;
+    }
+
+    /* Typewriter effect */
+    .typewriter {
+      border-right: 2px solid #ff007f;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: typing 4s steps(40, end), blink 0.7s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Doors -->
+  <div class="door left"></div>
+  <div class="door right"></div>
+
+  <!-- Main content -->
+  <div class="content">
+    <img src="photo.jpg" alt="Your Pic">
+    <h1>Happy Birthday 🎂</h1>
+  </div>
+
+  <!-- Letter -->
+  <div class="letter" id="letter">
+    <h2>For You 💌</h2>
+    <p id="shayari"></p>
+  </div>
+
+  <audio id="popSound" src="pop.mp3"></audio>
+
+  <script>
+    // Open doors only on click
+    document.body.addEventListener("click", () => {
+      document.querySelector('.door.left').classList.add('open-left');
+      document.querySelector('.door.right').classList.add('open-right');
+
+        // play pop sound
+        document.getElementById("popSound").play();
+
+        // Balloons generate
+        for(let i=0;i<20;i++){
+          let balloon = document.createElement("div");
+          balloon.className = "balloon";
+          balloon.style.left = Math.random()*100 + "vw";
+          balloon.style.background = "hsl(" + Math.random()*360 + ",70%,60%)";
+          balloon.style.animationDuration = (4 + Math.random()*3) + "s";
+          document.body.appendChild(balloon);
+          setTimeout(()=> balloon.remove(), 7000);
+        }
+
+        // Show letter
+        setTimeout(()=>{
+          document.getElementById("letter").style.display = "block";
+          typeWriterEffect("Zindagi ke har mod pe khushiyan ho saath,\nDosti aur pyaar bane rahe din raat.", "shayari", 50);
+        }, 2500);
+
+      }, 1500);
+      
+
+    // Typewriter effect function
+    function typeWriterEffect(text, elementId, speed){
+      let i = 0;
+      function typing(){
+        if(i < text.length){
+          document.getElementById(elementId).innerHTML += text.charAt(i);
+          i++;
+          setTimeout(typing, speed);
+        }
+      }
+      typing();
+    }
+  </script>
+</body>
+</html>
